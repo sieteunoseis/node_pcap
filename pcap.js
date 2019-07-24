@@ -1,7 +1,6 @@
 var util          = require("util");
 var events        = require("events");
 var binding       = require("./build/Release/pcap_binding");
-var SocketWatcher = require("socketwatcher").SocketWatcher;
 var decode        = require("./decode").decode;
 var tcp_tracker   = require("./tcp_tracker");
 var DNSCache      = require("./dns_cache");
@@ -56,19 +55,7 @@ function PcapSession(is_live, device_name, filter, buffer_size, outfile, is_moni
     this.buf = new Buffer(this.buffer_size || 65535);
     this.header = new Buffer(16);
 
-    if (is_live) {
-        this.readWatcher = new SocketWatcher();
-
-        // readWatcher gets a callback when pcap has data to read. multiple packets may be readable.
-        this.readWatcher.callback = function pcap_read_callback() {
-            var packets_read = self.session.dispatch(self.buf, self.header);
-            if (packets_read < 1) {
-                this.empty_reads += 1;
-            }
-        };
-        this.readWatcher.set(this.fd, true, false);
-        this.readWatcher.start();
-    } else {
+    if (!is_live) {
         timers.setImmediate(function() {
             var packets = 0;
             do {
