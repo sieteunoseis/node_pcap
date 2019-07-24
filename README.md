@@ -45,7 +45,7 @@ The easiest way to get `node_pcap` and its tools is with `npm`:
 
 If you want to hack on the source code, you can get it from github.  Clone the repo like this:
 
-    git clone git://github.com/mranney/node_pcap.git
+    git clone https://github.com/sieteunoseis/node_pcap.git
 
 To compile the native code bindings, do this:
 
