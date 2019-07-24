@@ -31,7 +31,7 @@ PcapPacket.prototype.decode = function (packet_with_header) {
 	if (packet_with_header.hasOwnProperty('link_type')){
 		this.link_type = packet_with_header.link_type;
 	}else {
-		this.link_type = "LINKTYPE_UNKNOWN"
+		this.link_type = "LINKTYPE_ETHERNET"
 	}
 	this.pcap_header = new PcapHeader(packet_with_header.header);
 
@@ -52,9 +52,6 @@ PcapPacket.prototype.decode = function (packet_with_header) {
 		break;
 	case "LINKTYPE_LINUX_SLL":
 		this.payload = new SLLPacket(this.emitter).decode(buf, 0);
-		break;
-	case "LINKTYPE_UNKNOWN":
-		this.payload = new EthernetPacket(this.emitter).decode(buf, 0);
 		break;
 	default:
 		console.log("node_pcap: PcapPacket.decode - Don't yet know how to decode link type " + this.link_type);
