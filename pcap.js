@@ -2,14 +2,9 @@ var util          = require("util");
 var events        = require("events");
 var binding       = require("./build/Release/pcap_binding");
 var decode        = require("./decode").decode;
-var tcp_tracker   = require("./tcp_tracker");
-var DNSCache      = require("./dns_cache");
 var timers        = require("timers");
 
 exports.decode = decode;
-exports.TCPTracker = tcp_tracker.TCPTracker;
-exports.TCPSession = tcp_tracker.TCPSession;
-exports.DNSCache = DNSCache;
 
 function PcapSession(is_live, device_name, filter, buffer_size, outfile, is_monitor) {
     this.is_live = is_live;
