@@ -28,7 +28,7 @@ function PcapPacket(emitter) {
 
 PcapPacket.prototype.decode = function (packet_with_header) {
 	// Check if link type is in header. Treat as ethernet if not.
-	if (link_type in packet_with_header){
+	if (packet_with_header.hasOwnProperty('link_type')){
 		this.link_type = packet_with_header.link_type;
 	}else {
 		this.link_type = "LINKTYPE_UNKNOWN"
