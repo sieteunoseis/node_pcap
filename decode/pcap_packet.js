@@ -13,50 +13,58 @@ var SLLPacket = require("./sll_packet");
 // And here we unpack those 4 ints from the buffer.
 
 function PcapHeader(raw_header) {
-    this.tv_sec = raw_header.readUInt32LE(0, true);
-    this.tv_usec = raw_header.readUInt32LE(4, true);
-    this.caplen = raw_header.readUInt32LE(8, true);
-    this.len = raw_header.readUInt32LE(12, true);
+	this.tv_sec = raw_header.timestampSeconds
+	this.tv_usec = raw_header.timestampMicroseconds
+	this.caplen = raw_header.capturedLength
+	this.len = raw_header.originalLength
 }
 
 function PcapPacket(emitter) {
-    this.link_type = null;
-    this.pcap_header = null;
-    this.payload = null;
-    this.emitter = emitter;
+	this.link_type = null;
+	this.pcap_header = null;
+	this.payload = null;
+	this.emitter = emitter;
 }
 
 PcapPacket.prototype.decode = function (packet_with_header) {
-    this.link_type = packet_with_header.link_type;
-    this.pcap_header = new PcapHeader(packet_with_header.header);
+	// Check if link type is in header. Treat as ethernet if not.
+	if (link_type in packet_with_header){
+		this.link_type = packet_with_header.link_type;
+	}else {
+		this.link_type = "LINKTYPE_UNKNOWN"
+	}
+	this.pcap_header = new PcapHeader(packet_with_header.header);
 
-    var buf = packet_with_header.buf.slice(0, this.pcap_header.len);
+	var buf = packet_with_header.data;
 
-    switch (this.link_type) {
-    case "LINKTYPE_ETHERNET":
-        this.payload = new EthernetPacket(this.emitter).decode(buf, 0);
-        break;
-    case "LINKTYPE_NULL":
-        this.payload = new NullPacket(this.emitter).decode(buf, 0);
-        break;
-    case "LINKTYPE_RAW":
-        this.payload = new Ipv4(this.emitter).decode(buf, 0);
-        break;
-    case "LINKTYPE_IEEE802_11_RADIO":
-        this.payload = new RadioPacket(this.emitter).decode(buf, 0);
-        break;
-    case "LINKTYPE_LINUX_SLL":
-        this.payload = new SLLPacket(this.emitter).decode(buf, 0);
-        break;
-    default:
-        console.log("node_pcap: PcapPacket.decode - Don't yet know how to decode link type " + this.link_type);
-    }
+	switch (this.link_type) {
+	case "LINKTYPE_ETHERNET":
+		this.payload = new EthernetPacket(this.emitter).decode(buf, 0);
+		break;
+	case "LINKTYPE_NULL":
+		this.payload = new NullPacket(this.emitter).decode(buf, 0);
+		break;
+	case "LINKTYPE_RAW":
+		this.payload = new Ipv4(this.emitter).decode(buf, 0);
+		break;
+	case "LINKTYPE_IEEE802_11_RADIO":
+		this.payload = new RadioPacket(this.emitter).decode(buf, 0);
+		break;
+	case "LINKTYPE_LINUX_SLL":
+		this.payload = new SLLPacket(this.emitter).decode(buf, 0);
+		break;
+	case "LINKTYPE_UNKNOWN":
+		this.payload = new EthernetPacket(this.emitter).decode(buf, 0);
+		break;
+	default:
+		console.log("node_pcap: PcapPacket.decode - Don't yet know how to decode link type " + this.link_type);
+	}
 
-    return this;
+	return this;
 };
 
 PcapPacket.prototype.toString = function () {
-    return this.link_type + " " + this.payload;
+	return this.link_type + " " + this.payload;
 };
 
 module.exports = PcapPacket;
