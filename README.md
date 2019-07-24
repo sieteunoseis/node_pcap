@@ -1,12 +1,5 @@
 ## Installation
 
-You will need `libpcap` installed.  Most OSX machines seem to have it.  All major Linux distributions have it available
-either by default or with a package like `libpcap-dev`.
-
-The easiest way to get `node_pcap` and its tools is with `npm`:
-
-    npm install pcap
-
 If you want to hack on the source code, you can get it from github.  Clone the repo like this:
 
     git clone https://github.com/sieteunoseis/node_pcap.git
