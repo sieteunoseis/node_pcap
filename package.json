@@ -10,7 +10,7 @@
   "main": "./pcap",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sieteunoseis/node_pcap.git"
+    "url": "git://github.com/sieteunoseis/pcap_decode.git"
   },
   "engines": {
     "node": ">=0.10"
