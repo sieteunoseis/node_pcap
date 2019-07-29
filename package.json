@@ -14,15 +14,5 @@
   },
   "engines": {
     "node": ">=0.10"
-  },
-  "dependencies": {
-    "nan": "^2.0.9"
-  },
-  "devDependencies": {
-    "istanbul": "^0.3.5",
-    "mocha": "^2.1.0",
-    "mocha-sinon": "^1.1.4",
-    "should": "^5.0.0",
-    "sinon": "^1.14.1"
   }
 }
