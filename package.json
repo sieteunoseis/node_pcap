@@ -8,7 +8,7 @@
     "Ujjwal Thaakar <ujjwalthaakar@gmail.com>",
     "Jeremy Worden <jeremy.worden@gmail.com>"
   ],
-  "main": "./pcap_decode",
+  "main": "./pcap",
   "repository": {
     "type": "git",
     "url": "git://github.com/sieteunoseis/node_pcap.git"
