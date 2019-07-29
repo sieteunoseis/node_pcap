@@ -1,3 +1,4 @@
+
 {
   "name": "pcap",
   "version": "2.2.0",
@@ -10,7 +11,7 @@
   "main": "./pcap",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sieteunoseis/pcap_decode.git"
+    "url": "git://github.com/sieteunoseis/node_pcap.git"
   },
   "engines": {
     "node": ">=0.10"
